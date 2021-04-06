@@ -60,7 +60,7 @@ try:
     with open(DIR_TEMPLATES + 'namelist.input', 'r') as namelist:
         NAMELIST_WRF = namelist.read()
 except:
-    print 'Error reading namelist files'
+    print('Error reading namelist files')
     exit()
 
 try: rmtree(DIR_LOCAL_TMP)
@@ -167,31 +167,31 @@ ftp.getMulti(ftpQueue)
 system(CMD_LINK_GRIB)
 
 elapsed = int(time()) - startTime
-print 'GFS retrieved in: ' + str(elapsed)
+print('GFS retrieved in: ' + str(elapsed))
 
 startTime = int(time())
 system(CMD_GEOGRID)
 
 elapsed = int(time()) - startTime
-print 'Geogrid ran in: ' + str(elapsed)
+print('Geogrid ran in: ' + str(elapsed))
 
 startTime = int(time())
 system(CMD_UNGRIB)
 
 elapsed = int(time()) - startTime
-print 'Ungrib ran in: ' + str(elapsed)
+print('Ungrib ran in: ' + str(elapsed))
 
 startTime = int(time())
 system(CMD_METGRID)
 
 elapsed = int(time()) - startTime
-print 'Metgrid ran in: ' + str(elapsed)
+print('Metgrid ran in: ' + str(elapsed))
 
 startTime = int(time())
 system(CMD_REAL)
 
 elapsed = int(time()) - startTime
-print 'Real ran in: ' + str(elapsed)
+print('Real ran in: ' + str(elapsed))
 
 cmd = CMD_CP % (DIR_LOCAL_TMP + 'rsl.*', DIR_LOG + 'real/')
 mkdir (DIR_LOG + 'real/')
@@ -203,13 +203,13 @@ chdir(DIR_REMOTE_TMP)
 system(CMD_CHMOD % ('777', DIR_REMOTE_TMP))
 
 elapsed = int(time()) - startTime
-print 'Files copied in: ' + str(elapsed)
+print('Files copied in: ' + str(elapsed))
 
 startTime = int(time())
 system(CMD_WRF)
 
 elapsed = int(time()) - startTime
-print 'WRF ran in: ' + str(elapsed)
+print('WRF ran in: ' + str(elapsed))
 
 cmd = CMD_CP % (DIR_REMOTE_TMP + 'wrfout*', DIR_OUT)
 cmd = cmd + '; ' + CMD_CP % (DIR_REMOTE_TMP + '*.log rsl.*', DIR_LOG)

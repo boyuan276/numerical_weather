@@ -8,20 +8,26 @@ from wrf import (to_np, getvar, smooth2d, get_cartopy, cartopy_xlim,
                  cartopy_ylim, latlon_coords)
 
 # Open the NetCDF file
-ncfile = Dataset("wrfout_d01_2016-10-07_00_00_00")
+domain = "d01"
+date = "2021-04-10"
+time = "12:00:00"
+file_name = "wrfout_"+domain+"_"+date+"_"+time
+ncfile = Dataset(file_name)
 
 # Get the sea level pressure
-slp = getvar(ncfile, "slp")
+var_name = "slp"
+var_fullname = "sea level pressure (hPa)"
+var = getvar(ncfile, var_name)
 
 # Smooth the sea level pressure since it tends to be noisy near the
 # mountains
-smooth_slp = smooth2d(slp, 3, cenweight=4)
+smooth_var = smooth2d(var, 3, cenweight=4)
 
 # Get the latitude and longitude points
-lats, lons = latlon_coords(slp)
+lats, lons = latlon_coords(var)
 
 # Get the cartopy mapping object
-cart_proj = get_cartopy(slp)
+cart_proj = get_cartopy(var)
 
 # Create a figure
 fig = plt.figure(figsize=(12,6))
@@ -37,9 +43,9 @@ ax.coastlines('50m', linewidth=0.8)
 
 # Make the contour outlines and filled contours for the smoothed sea level
 # pressure.
-plt.contour(to_np(lons), to_np(lats), to_np(smooth_slp), 10, colors="black",
+plt.contour(to_np(lons), to_np(lats), to_np(smooth_var), 10, colors="black",
             transform=crs.PlateCarree())
-plt.contourf(to_np(lons), to_np(lats), to_np(smooth_slp), 10,
+plt.contourf(to_np(lons), to_np(lats), to_np(smooth_var), 10,
              transform=crs.PlateCarree(),
              cmap=get_cmap("jet"))
 
@@ -47,12 +53,16 @@ plt.contourf(to_np(lons), to_np(lats), to_np(smooth_slp), 10,
 plt.colorbar(ax=ax, shrink=.98)
 
 # Set the map bounds
-ax.set_xlim(cartopy_xlim(smooth_slp))
-ax.set_ylim(cartopy_ylim(smooth_slp))
+ax.set_xlim(cartopy_xlim(smooth_var))
+ax.set_ylim(cartopy_ylim(smooth_var))
 
 # Add the gridlines
 ax.gridlines(color="black", linestyle="dotted")
 
-plt.title("Sea Level Pressure (hPa)")
+# Add the tile
+title_name = var_fullname+" "+domain+" "+date+" "+time
+plt.title(title_name)
 
 plt.show()
+fig_name = var_name+"_"+domain+"_"+date+"_"+time+".png"
+plt.savefig(fig_name)

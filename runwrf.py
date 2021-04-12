@@ -1,15 +1,13 @@
 #!/usr/local/bin/python
 
-import ftp
-
 from argparse import ArgumentParser
-from datetime import datetime, timedelta
+from datetime import datetime
 from os import chdir, getcwd, mkdir, system
 from shutil import rmtree
-from socket import gethostname
-from subprocess import call
 from sys import exit
-from time import localtime, strftime, strptime, time
+from time import time
+
+import ftp
 
 arg = ArgumentParser()
 #arg.add_argument('-s', help="Start Date")

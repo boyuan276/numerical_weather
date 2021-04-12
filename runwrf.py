@@ -45,7 +45,7 @@ CMD_GEOGRID = DIR_WPS + 'geogrid.exe >& geogrid.exe.log'
 CMD_UNGRIB = DIR_WPS + 'ungrib.exe >& ungrib.exe.log'
 CMD_METGRID = DIR_WPS + 'metgrid.exe >& metgrid.exe.log'
 CMD_REAL = DIR_WRF + 'real.exe >& real.exe.log'
-CMD_WRF = 'time /usr/local/wrf/LIBRARIES/mpich/bin/mpiexec -f %s %swrf.exe >& wrf.exe.log' % (DIR_TEMPLATES + 'hosts', DIR_WRF)
+CMD_WRF: str = 'time /usr/local/wrf/LIBRARIES/mpich/bin/mpiexec -f %s %swrf.exe >& wrf.exe.log' % (DIR_TEMPLATES + 'hosts', DIR_WRF)
 
 FTP_PATH = 'ftp://ftpprd.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/gfs.%s/'
 

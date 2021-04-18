@@ -7,7 +7,7 @@ from shutil import rmtree
 from sys import exit
 from time import time
 
-import ftp
+from ftplib import FTP
 
 arg = ArgumentParser()
 #arg.add_argument('-s', help="Start Date")
@@ -159,7 +159,7 @@ for i in range(0, 75, 3):
     local_path = local_gfs + file_name
     remote_path = remote_gfs + file_name
     ftpQueue.append((remote_path, local_path))
-ftp.getMulti(ftpQueue)
+FTP.getMulti(ftpQueue)
 
 # Link the grib files
 system(CMD_LINK_GRIB)

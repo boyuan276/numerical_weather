@@ -1,4 +1,4 @@
-from netCDF4 import Dataset
+import netCDF4 as nc
 import matplotlib.pyplot as plt
 from matplotlib.cm import get_cmap
 import cartopy.crs as crs
@@ -8,15 +8,17 @@ from wrf import (to_np, getvar, smooth2d, get_cartopy, cartopy_xlim,
                  cartopy_ylim, latlon_coords)
 
 # Open the NetCDF file
-domain = "d01"
-date = "2021-04-10"
-time = "12:00:00"
+dir = "../tompkins-3dv2/"
+domain = "d03"
+date = "2021-04-12"
+time = "12_00_00"
 file_name = "wrfout_"+domain+"_"+date+"_"+time
-ncfile = Dataset(file_name)
+# file_name = "../tompkins-3dv2/wrfout_d02_2021-04-10_12_00_00"
+ncfile = nc.Dataset(dir+file_name)
 
 # Get the sea level pressure
-var_name = "slp"
-var_fullname = "sea level pressure (hPa)"
+var_name = "T2"
+var_fullname = "2m temperature"
 var = getvar(ncfile, var_name)
 
 # Smooth the sea level pressure since it tends to be noisy near the

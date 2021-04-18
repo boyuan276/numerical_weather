@@ -8,15 +8,15 @@ from wrf import (to_np, getvar, smooth2d, get_cartopy, cartopy_xlim,
                  cartopy_ylim, latlon_coords)
 
 # Open the NetCDF file
-domain = "d02"
+domain = "d01"
 date = "2021-04-10"
 time = "12:00:00"
 file_name = "wrfout_"+domain+"_"+date+"_"+time
 ncfile = Dataset(file_name)
 
 # Get the sea level pressure
-var_name = "cloudfrac"
-var_fullname = "cloud fraction"
+var_name = "slp"
+var_fullname = "sea level pressure (hPa)"
 var = getvar(ncfile, var_name)
 
 # Smooth the sea level pressure since it tends to be noisy near the

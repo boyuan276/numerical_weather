@@ -8,13 +8,13 @@ from wrf import (to_np, getvar, smooth2d, get_cartopy, cartopy_xlim,
                  cartopy_ylim, latlon_coords)
 
 # Open the NetCDF file
-dir = "../tompkins-3dv2/"
-domain = "d03"
-date = "2021-04-12"
+cwd = "../tompkins-3dv2/"
+domain = "d01"
+date = "2021-04-10"
 time = "12_00_00"
 file_name = "wrfout_"+domain+"_"+date+"_"+time
 # file_name = "../tompkins-3dv2/wrfout_d02_2021-04-10_12_00_00"
-ncfile = nc.Dataset(dir+file_name)
+ncfile = nc.Dataset(cwd+file_name)
 
 # Get the sea level pressure
 var_name = "T2"
@@ -65,6 +65,7 @@ ax.gridlines(color="black", linestyle="dotted")
 title_name = var_fullname+" "+domain+" "+date+" "+time
 plt.title(title_name)
 
-plt.show()
+# Save and show figure
 fig_name = var_name+"_"+domain+"_"+date+"_"+time+".png"
-plt.savefig(fig_name)
+plt.savefig(cwd+fig_name)
+plt.show()

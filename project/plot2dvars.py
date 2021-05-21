@@ -1,5 +1,5 @@
 #%% Import libraries
-
+import os
 import netCDF4 as nc
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,22 +14,26 @@ from wrf import (getvar, to_np, ALL_TIMES, smooth2d, get_cartopy, cartopy_xlim,
 #%% Import data
 
 # Open the NetCDF file
-wrfout_headdir = 'D:/courses/F2020-S2021/EAS 5555/Code/numerical_weather/project/20210515.00Z/'
-cwd = "./"
-domain = "d03"
-date = "2021-04-10"
-time = "12_00_00"
-file_name = "wrfout_"+domain+"_"+date+"_"+time
-ncfile = nc.Dataset(cwd+file_name)
-# Create a list of wrf output
-wrf_list = [nc.Dataset("wrfout_d03_2021-04-10_12_00_00"),
-           nc.Dataset("wrfout_d03_2021-04-11_12_00_00"),
-           nc.Dataset("wrfout_d03_2021-04-12_12_00_00"),
-           nc.Dataset("wrfout_d03_2021-04-13_12_00_00"),
-           nc.Dataset("wrfout_d03_2021-04-14_12_00_00"),
-           nc.Dataset("wrfout_d03_2021-04-15_12_00_00")]
+wrfout_headdir = 'D:/courses/F2020-S2021/EAS 5555/Code/numerical_weather/project/'
 
-time = getvar(wrf_list, 'Times', timeidx=ALL_TIMES)
+time_dir = ['20210515.00Z/',
+            '20210515.12Z/',
+            '20210516.00Z/',
+            '20210516.12Z/',
+            '20210517.00Z/']
+
+# Identify the WRF output file to be processed
+wrfout_file = ['wrfout_d03_2021-05-15_00_00_00',
+               'wrfout_d03_2021-05-15_12_00_00',
+               'wrfout_d03_2021-05-16_00_00_00',
+               'wrfout_d03_2021-05-16_12_00_00',
+               'wrfout_d03_2021-05-17_00_00_00',]
+
+i = 1
+
+ncfile = nc.Dataset(wrfout_headdir + time_dir[i] + wrfout_file[i])
+
+time = getvar(ncfile, 'Times', timeidx=ALL_TIMES)
 num_time = len(time)
 
 #%%
@@ -37,7 +41,14 @@ num_time = len(time)
 # Get 2m temperature variable
 var_name = "T2"
 var_fullname = "2m temperature"
-fig_dir = cwd + var_name + "/"
+
+var_dir = wrfout_headdir + var_name + "/"
+if os.path.isdir(var_dir):
+    pass
+else:
+    os.makedirs(var_dir)
+    print("Create dir ", var_dir)
+
 
 for i in range(num_time):
     var = getvar(wrf_list, var_name, timeidx=i)
